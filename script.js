@@ -5,7 +5,7 @@
 // 1 - SELECIONAR OS ELEMENTOS DO HTML
 
 // Pegar a imagem do cachorro
-const dogImage = document.getElementById("docImage");
+const dogImage = document.getElementById("dogImage");
 // elemento onde aparece o nome da raça
 const breedName = document.getElementById("breedName");
 
@@ -91,4 +91,56 @@ async function fetchFromApi(endpoint){
     }
 }
 
-fetchFromApi("/breeds/image/random")
+//fetchFromApi("/breeds/image/random")
+//=======================================================
+//4- FUNÇÃO DE AÇÃO
+//========================================================
+
+
+//BUSCAR UM CACHORRO ALEATORIO
+function getRandomDog(){
+    fetchFromApi('/breeds/image/random')
+}
+
+
+// busca cachorro por raça
+function getBreedDog(){
+    // pegar o valor digitado
+    let breed = breedInput.value.toLowerCase().trim();
+
+    // verificar se o campus tá vazio
+    if(!breed){
+        alert("Digite uma raça!");
+        return
+    }
+
+    // chamar a API
+    fetchFromApi(`/breed/&{breed}/image/random`);
+}
+
+
+// =================================
+// 5 - EVENTOS
+// =================================
+
+// clique no botão "aleatório"
+randomBtn.addEventListener("click", getRandomDog);
+
+// clique no botão "buscar"
+searchBtn.addEventListener("click", getBreedDog);
+
+// clique na imagem gera novo cachorro
+dogImage.addEventListener("click", getRandomDog)
+
+//
+breedInput.addEventListener("keypress", function(event){
+    // se a tecla pressionada for ENTER
+    if(event.key === "Enter"){
+        getBreedDog();
+    }
+});
+
+
+getRandomDog();
+
+
